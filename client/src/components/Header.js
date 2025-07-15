@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 
-import {Button} from 'react-bootstrap';
+import {Link} from 'react-router';
 import Auth from '../utils/auth';
 import LoginPopup from '../pages/LoginPopup';
 
