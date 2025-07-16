@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { gql } from '@apollo/client';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { Button } from 'react-bootstrap';
 
 import { ADD_PROFILE, LOGIN } from '../utils/mutation';
 import Auth from '../utils/auth';
@@ -15,7 +16,7 @@ const LoginPopup = () => {
 
   const [addProfile, { loading: signUpLoading }] = useMutation(ADD_PROFILE, {
     onCompleted: (data) => {
-      localStorage.setItem('token', data.addProfile.token);
+      Auth.login(data.addProfile.token);
       setShow(false);
       setUsername('');
       setPassword('');
@@ -28,7 +29,7 @@ const LoginPopup = () => {
 
   const [login, { loading: loginLoading }] = useMutation(LOGIN, {
     onCompleted: (data) => {
-      localStorage.setItem('token', data.login.token);
+      Auth.login(data.login.token);
       setShow(false);
       setUsername('');
       setPassword('');
@@ -91,9 +92,7 @@ const LoginPopup = () => {
                 {isAuthenticated ? (
                   <div>
                     <p>Are you sure you want to sign out?</p>
-                    <button className="btn btn-danger" onClick={handleSignOut}>
-                      Sign Out
-                    </button>
+                    <Button onClick={() => Auth.logout()}>Log out</Button>
                   </div>
                 ) : (
                   <form onSubmit={handleSubmit}>

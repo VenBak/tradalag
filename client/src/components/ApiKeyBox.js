@@ -27,13 +27,11 @@ export default function ApiKeyBox() {
   if (!loggedIn || loading || !data) return null;
 
   const apiKey = data.me?.apiKey ?? null;
-  const mutationErr = setErr?.message || clrErr?.message || null;
 
   return (
     <Card className="mb-4">
       <Card.Header as="h5">You can save your API key here</Card.Header>
       <Card.Body>
-        {mutationErr && <Alert variant="danger">{mutationErr}</Alert>}
 
         {!apiKey && (
           <Form
