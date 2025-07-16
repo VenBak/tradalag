@@ -13,6 +13,7 @@
     "bootstrap": "^5.3.7",
     "graphql": "^16.11.0",
     "jwt-decode": "^4.0.0",
+    "mongoose": "^8.16.3",
     "react": "^19.1.0",
     "react-bootstrap": "^2.10.10",
     "react-dom": "^19.1.0",

@@ -1,5 +1,6 @@
 const { Schema, model } = require('mongoose');
 const bcrypt = require('bcrypt');
+const { Types } = require('mongoose');
 
 const profileSchema = new Schema({
   username: {
@@ -17,16 +18,14 @@ const profileSchema = new Schema({
     trim: true,
     default: null,
   },
-  portfolio: [
-    {
-      _id:         { type: Schema.Types.ObjectId, default: () => new Types.ObjectId() },
-      ticker:      { type: String, required: true },
-      name:        { type: String, required: true },
-      sector:      { type: String, required: true },
-      shares:      { type: Number, required: true },
-      valueUSD:    { type: Number, required: true },
-    },
-  ],
+  portfolio: [{
+    _id: { type: Schema.Types.ObjectId, default: () => new Types.ObjectId() },
+    ticker:   String,
+    name:     String,
+    sector:   String,
+    shares:   Number,
+    valueUSD: Number,
+  }],
 });
 
 // set up pre-save middleware to create password
