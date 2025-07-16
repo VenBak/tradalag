@@ -99,6 +99,18 @@ html, body {
   border: none;
 }
 
+/* positive %  → green tint */
+.exp-pos {
+  background: #d4edda;   /* light green, matches .table-success */
+  color:       #155724;   /* dark green text                 */
+}
+
+/* negative %  → red tint */
+.exp-neg {
+  background: #f8d7da;   /* light red, matches .table-danger */
+  color:       #721c24;   /* dark red text                    */
+}
+
 
 @keyframes App-logo-spin {
   from {

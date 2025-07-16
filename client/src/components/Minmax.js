@@ -212,7 +212,15 @@ export default function Minmax() {
             {/* table header */}
             <tbody>
             {results.map(r => (
-                <tr key={r.symbol}>
+                <tr
+                    key={r.symbol}
+                    className={
+                        r.expPct == null        ? ''
+                        : r.expPct > 0          ? 'table-success'
+                        : r.expPct < 0          ? 'table-danger'
+                        : ''
+                    }
+                >
                 <td>{r.symbol}</td>
                 <td>{r.name.length > 28 ? r.name.slice(0,25)+'…' : r.name}</td>
                 <td>{formatValue(r.latest,2)}</td>
