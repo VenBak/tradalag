@@ -20,7 +20,7 @@ const httpLink = createHttpLink({
 
 const authLink = setContext((_, { headers }) => {
   // get the authentication token from local storage if it exists
-  const token = localStorage.getItem('id_token');
+  const token = localStorage.getItem('token');
   // return the headers to the context so httpLink can read them
   return {
     headers: {
@@ -34,12 +34,17 @@ const authLink = setContext((_, { headers }) => {
 //   uri: 'https://flyby-router-demo.herokuapp.com/',
 //   cache: new InMemoryCache(),
 // });
+// const client = new ApolloClient({
+//   uri: process.env.REACT_APP_GRAPHQL_URI || '/graphql',
+//   link: authLink.concat(httpLink),
+//   cache: new InMemoryCache(),
+// });
+
+
 const client = new ApolloClient({
-  uri: process.env.REACT_APP_GRAPHQL_URI || '/graphql',
-  link: authLink.concat(httpLink),
+  link: authLink.concat(httpLink),   // ← make sure this line’s in place
   cache: new InMemoryCache(),
 });
-
 
 function App() {
   return (

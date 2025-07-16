@@ -8,8 +8,8 @@ require('dotenv').config();
 //   },
 // };
 
-const secret = 'mysecretssshhhhhhh';
-const expiration = '2h';
+const secret = process.env.JWT_SECRET;      // <—
+const expiration = process.env.EXPIRATION || '2h';
 
 module.exports = {
 authMiddleware: function ({ req }) {
@@ -29,8 +29,8 @@ authMiddleware: function ({ req }) {
 
     // if token can be verified, add the decoded user's data to the request so it can be accessed in the resolver
     try {
-        const { data } = jwt.verify(token, process.env.SECRET, { maxAge: process.env.EXPIRATION });
-        req.user = data;
+        const { data } = jwt.verify(token, secret, { maxAge: expiration});
+        req.profile = data;
     } catch {
         console.log('Invalid token');
     }
