@@ -5,6 +5,7 @@ import { ADD_STOCK, REMOVE_STOCK } from '../utils/mutation';
 import useAuth from '../hooks/useAuth';
 import { useState } from 'react';
 import Header from '../components/Header';
+import PortfolioBarChart from '../components/PortfolioBarChart';
 
 const sectors = [
   'Basic Materials','Consumer Discretionary','Consumer Staples','Energy','Financials',
@@ -81,6 +82,7 @@ export default function Portfolio() {
           </Col>
         ))}
       </Row>
+      <PortfolioBarChart />
     </Container>
   );
 }
