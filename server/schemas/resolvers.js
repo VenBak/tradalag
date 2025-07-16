@@ -1,6 +1,7 @@
 const { AuthenticationError } = require('apollo-server-express');
 const { Profile } = require('../models');
 const { signToken } = require('../utils/auth');
+const { Types } = require('mongoose');
 
 const resolvers = {
   Query: {
@@ -63,6 +64,28 @@ const resolvers = {
         { $unset: { apiKey: 1 } },
         { new: true }
       );
+    },
+
+    addStock: async (_p, args, context) => {
+      if (!context.profile) throw new AuthenticationError('Must be logged in');
+       const entry = { _id: new Types.ObjectId(), ...args };
+
+      // 2 — push *that* entry
+      await Profile.findByIdAndUpdate(
+      context.profile._id,
+        { $push: { portfolio: entry } }
+      );
+      // 3 — return it
+      return entry;
+    },
+
+    removeStock: async (_p, context) => {
+      if (!context.profile) throw new AuthenticationError('Must be logged in');
+      await Profile.findByIdAndUpdate(
+        context.profile._id,
+        { $pull: { portfolio: { _id: stockId } } },
+      );
+      return stockId;
     },
   }
 };

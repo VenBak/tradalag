@@ -13,6 +13,7 @@ import {
 } from '@apollo/client';
 import Minmax from './pages/Home';
 import LoginPopup from './pages/LoginPopup';
+import Portfolio from './pages/Portfolio';
 
 const httpLink = createHttpLink({
   uri: 'graphql',
@@ -55,10 +56,10 @@ function App() {
             path="/" 
             element={<Home />} 
           />
-        {/* {/* <Route
-          path="/login"
-          element={<Login />}
-        /> */}
+        <Route
+          path="/portfolio"
+          element={<Portfolio />}
+        />
         <Route
           path="/signup"
           element={<LoginPopup />}

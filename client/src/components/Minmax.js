@@ -18,6 +18,9 @@ export default function Minmax() {
   const [windowStart, setWindowStart]   = useState(Date.now());
   const [callsInWindow, setCallsInWindow] = useState(0);
 
+  const sectors = ['Basic Materials', 'Consumer Discretionary', 'Consumer Staples', 'Energy', 'Financials', 
+    'Healthcare', 'Industrials', 'Real Estate', 'Technology', 'Telecommunications', 'Utilities']
+
   const addLog = (message) => {
     setLogs((prev) => [...prev, `${new Date().toLocaleTimeString()}: ${message}`]);
   };

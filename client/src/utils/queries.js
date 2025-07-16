@@ -19,5 +19,7 @@ export const QUERY_SINGLE_PROFILE = gql`
 `;
 
 export const GET_ME = gql`
-  { me { _id username apiKey } }
+  { me { _id username apiKey portfolio {
+      _id ticker name sector shares valueUSD
+  } } }
 `;

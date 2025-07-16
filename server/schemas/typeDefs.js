@@ -1,12 +1,21 @@
 const { gql } = require('apollo-server-express');
 
 const typeDefs = gql`
+  type PortfolioEntry {
+    _id: ID!
+    ticker: String!
+    name: String!
+    sector: String!
+    shares: Int!
+    valueUSD: Float!
+  }
   type Profile {
     _id: ID
     username: String
     # There is now a field to store the user's password
     password: String
-    apiKey: String 
+    apiKey: String
+    portfolio: [PortfolioEntry!]!
   }
 
   # Set up an Auth type to handle returning data from a profile creating or user login
@@ -29,6 +38,15 @@ const typeDefs = gql`
     removeProfile(profileId: ID!): Profile
     setApiKey(apiKey: String!): Profile!
     clearApiKey: Profile!
+
+    addStock(
+    ticker: String!
+    name:   String!
+    sector: String!
+    shares: Int!
+    valueUSD: Float!
+    ): PortfolioEntry!
+    removeStock(stockId: ID!): ID!
   }
 `;
 

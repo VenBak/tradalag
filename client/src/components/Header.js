@@ -31,7 +31,7 @@ const Header = ({ username }) => {
       </h1>
 
       <nav className="nav">
-        <Link to="/">Dashboard</Link>
+        <Link to="/portfolio" className="nav-link">Portfolio</Link>
         <Link to="/">Settings</Link>
         <LoginPopup></LoginPopup>
       </nav>

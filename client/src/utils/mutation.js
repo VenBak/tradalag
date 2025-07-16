@@ -35,3 +35,23 @@ export const CLEAR_API_KEY = gql`
     clearApiKey { _id apiKey }
   }
 `;
+
+export const ADD_STOCK = gql`
+  mutation AddStock(
+    $ticker: String!, $name: String!, $sector: String!,
+    $shares: Int!, $valueUSD: Float!
+  ) {
+    addStock(
+      ticker: $ticker, name: $name, sector: $sector,
+      shares: $shares, valueUSD: $valueUSD
+    ) {
+      _id ticker name sector shares valueUSD
+    }
+  }
+`;
+
+export const REMOVE_STOCK = gql`
+  mutation RemoveStock($stockId: ID!) {
+    removeStock(stockId: $stockId)
+  }
+`;
