@@ -15,7 +15,7 @@ const profileSchema = new Schema({
   },apiKey: {
     type: String,
     trim: true,
-    default: "",
+    default: null,
   },
 });
 

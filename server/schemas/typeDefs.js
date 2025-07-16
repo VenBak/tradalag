@@ -6,6 +6,7 @@ const typeDefs = gql`
     username: String
     # There is now a field to store the user's password
     password: String
+    apiKey: String 
   }
 
   # Set up an Auth type to handle returning data from a profile creating or user login
@@ -17,6 +18,7 @@ const typeDefs = gql`
   type Query {
     profiles: [Profile]!
     profile(profileId: ID!): Profile
+    me: Profile
   }
 
   type Mutation {
@@ -25,6 +27,8 @@ const typeDefs = gql`
     login(username: String!, password: String!): Auth
 
     removeProfile(profileId: ID!): Profile
+    setApiKey(apiKey: String!): Profile!
+    clearApiKey: Profile!
   }
 `;
 

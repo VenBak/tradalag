@@ -3,6 +3,7 @@ import { Form, Button, Table, Alert } from 'react-bootstrap';
 import axios from 'axios';
 import RAW_SYMBOLS from '../data/symbols.json'; // Adjust path if necessary
 import Header from '../components/Header'
+import ApiKeyBox from '../components/ApiKeyBox';
 
 
 const SYMBOLS = Array.isArray(RAW_SYMBOLS[0]) ? RAW_SYMBOLS.flat() : RAW_SYMBOLS;
@@ -205,6 +206,7 @@ const Home = () => {
           {isLoading ? 'Loading...' : 'Analyze Stocks'}
         </Button>
       </Form>
+      <ApiKeyBox></ApiKeyBox>
       {error && <Alert variant="danger">{error}</Alert>}
       {results.length > 0 && (
         <div className="table-responsive mb-4">

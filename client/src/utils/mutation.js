@@ -23,3 +23,15 @@ export const ADD_PROFILE = gql`
     }
   }
 `;
+
+export const SET_API_KEY = gql`
+  mutation SetApiKey($apiKey: String!) {
+    setApiKey(apiKey: $apiKey) { _id apiKey }
+  }
+`;
+
+export const CLEAR_API_KEY = gql`
+  mutation ClearApiKey {
+    clearApiKey { _id apiKey }
+  }
+`;
