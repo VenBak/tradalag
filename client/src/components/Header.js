@@ -36,7 +36,6 @@ const Header = ({ username }) => {
         <LoginPopup></LoginPopup>
       </nav>
 
-      <span className="greeting">Welcome back, {username}!</span>
     </header>
     );
 };

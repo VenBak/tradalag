@@ -1,3 +1,12 @@
+/* Palette variables */
+:root {
+  --c-primary: #606C38;
+  --c-dark:    #283618;
+  --c-light:   #FEFAE0;
+  --c-accent:  #DDA15E;
+  --c-warn:    #BC6C25;
+}
+
 .App {
   text-align: center;
 }
@@ -35,13 +44,60 @@
   display: flex;               /* put items in one row */
   align-items: center;         /* vertical centering */
   justify-content: space-between;
-  background: #1e1e24;
-  color: #f8f8f2;
+  background: var(--c-dark);
+  color: var(--c-light);
 }
 
 .logo a { text-decoration: none; color: inherit; font-weight: 600; }
 .nav a  { margin-left: 1rem; color: #c5c5d2; }
 .greeting { font-size: 0.9rem; opacity: 0.85; }
+
+html, body {
+  background: var(--c-light);
+  color: var(--c-dark);
+}
+
+.btn-primary,
+.btn-primary:focus {
+  margin-left: 1rem;
+  background-color: var(--c-primary) !important;
+  border-color:     var(--c-primary) !important;
+  color: var(--c-light) !important;
+}
+
+.btn-primary:hover,
+.btn-primary:active,
+.btn-primary:focus-visible {
+  background-color: var(--c-accent) !important;
+  border-color:     var(--c-accent) !important;
+}
+
+.app-header a {
+  color: var(--c-accent);
+}
+.app-header a:hover { color: var(--c-warn); }
+
+.table-striped > tbody > tr:nth-of-type(odd) {
+  --bs-table-accent-bg: var(--c-accent);
+  color: var(--c-dark);
+}
+.login-modal .modal-content {
+  background: var(--c-light);
+  border: 2px solid var(--c-primary);
+}
+
+.login-modal .modal-title { color: var(--c-primary); }
+
+.login-modal .btn-primary {
+  background: var(--c-primary);
+  border: none;
+}
+.login-modal .btn-primary:hover { background: var(--c-accent); }
+
+.login-modal .btn-danger {
+  background: var(--c-warn);
+  border: none;
+}
 
 
 @keyframes App-logo-spin {
