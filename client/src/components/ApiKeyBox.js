@@ -1,74 +1,67 @@
 import { useQuery, useMutation } from '@apollo/client';
 import { useState, useEffect } from 'react';
+import { Card, Form, Button, Alert } from 'react-bootstrap';
+import useAuth from '../hooks/useAuth';
 import { GET_ME } from '../utils/queries';
-import auth from '../utils/auth';
 import { SET_API_KEY, CLEAR_API_KEY } from '../utils/mutation';
 
 export default function ApiKeyBox() {
+  const loggedIn = useAuth();                 // live auth state
   const [keyInput, setKeyInput] = useState('');
 
-  /* 1 │ mutations stay the same */
-  const [setApiKey]   = useMutation(SET_API_KEY,   { refetchQueries: [{ query: GET_ME }] });
-  const [clearApiKey] = useMutation(CLEAR_API_KEY, { refetchQueries: [{ query: GET_ME }] });
-
-  /* 2 │ only run the query when a token is present */
-  const loggedIn = auth.loggedIn();
   const { data, loading, refetch } = useQuery(GET_ME, {
-    skip: !loggedIn,                         // query runs only when logged-in
-    fetchPolicy: 'network-only',             // always hit the server
+    skip: !loggedIn,
+    fetchPolicy: 'network-only',
   });
 
-  useEffect(() => {
-    if (loggedIn) refetch();
-  }, [loggedIn, refetch]);  
+  const [setApiKey, { error: setErr }]   = useMutation(SET_API_KEY,   {
+    refetchQueries: [{ query: GET_ME }],
+  });
+  const [clearApiKey, { error: clrErr }] = useMutation(CLEAR_API_KEY, {
+    refetchQueries: [{ query: GET_ME }],
+  });
 
-  if (!loggedIn)           return null;
-  if (loading || !data) return null;           // still fetching -or- not signed in
+  /* fire once right after a successful login */
+  useEffect(() => { if (loggedIn) refetch(); }, [loggedIn, refetch]);
 
-  /* 3 │ pull the key out of the result ----------- */
-  const apiKey = data?.me?.apiKey ?? null;
+  if (!loggedIn || loading || !data) return null;
+
+  const apiKey = data.me?.apiKey ?? null;
+  const mutationErr = setErr?.message || clrErr?.message || null;
 
   return (
-    <div className="mt-4 space-y-2">
+    <Card className="mb-4">
+      <Card.Header as="h5">You can save your API key here</Card.Header>
+      <Card.Body>
+        {mutationErr && <Alert variant="danger">{mutationErr}</Alert>}
 
-      {/* 4 │ show the INPUT when the user **has no** key yet */}
-      {!apiKey && (
-        <form
-          className="flex gap-2"
-          onSubmit={e => {
-            e.preventDefault();
-            const trimmed = keyInput.trim();
-            if (trimmed) {
-              setApiKey({ variables: { apiKey: trimmed } })
-                .then(() => setKeyInput(''));
-            }
-          }}
-        >
-          <input
-            className="flex-1 rounded border px-2 py-1"
-            value={keyInput}
-            onChange={e => setKeyInput(e.target.value)}
-            placeholder="Paste your API key"
-          />
-          <button className="rounded bg-blue-600 px-3 py-1 text-white hover:bg-blue-700">
-            Save
-          </button>
-        </form>
-      )}
-
-      {/* 5 │ show the STORED key + delete button when the user **has** a key */}
-      {apiKey && (
-        <div className="flex items-center gap-4 rounded border p-2">
-          <code className="flex-1 truncate">{apiKey}</code>
-          <button
-            className="rounded bg-red-600 px-2 py-1 text-white hover:bg-red-700"
-            onClick={() => clearApiKey()}
-            title="Delete stored key"
+        {!apiKey && (
+          <Form
+            onSubmit={e => {
+              e.preventDefault();
+              const trimmed = keyInput.trim();
+              if (trimmed)
+                setApiKey({ variables: { apiKey: trimmed } })
+                  .then(() => setKeyInput(''));
+            }}
+            className="d-flex gap-2"
           >
-            ✕
-          </button>
-        </div>
-      )}
-    </div>
+            <Form.Control
+              value={keyInput}
+              onChange={e => setKeyInput(e.target.value)}
+              placeholder="Paste your API key"
+            />
+            <Button variant="primary" type="submit">Save</Button>
+          </Form>
+        )}
+
+        {apiKey && (
+          <div className="d-flex align-items-center gap-3">
+            <code className="flex-grow-1 text-wrap">{apiKey}</code>
+            <Button variant="outline-danger" onClick={() => clearApiKey()}>Delete</Button>
+          </div>
+        )}
+      </Card.Body>
+    </Card>
   );
 }

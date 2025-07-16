@@ -7,10 +7,14 @@ class AuthService {
     return decode(this.getToken());
   }
 
+  notifyAuthChange() {
+    window.dispatchEvent(new Event('authchange'));
+  };
+
   // return `true` or `false` if token exists (does not verify if it's expired yet)
   loggedIn() {
     const token = this.getToken();
-    return token ? true : false;
+    return !!this.getToken();
   }
 
   getToken() {
@@ -21,14 +25,13 @@ class AuthService {
   login(idToken) {
     // Saves user token to localStorage and reloads the application for logged in status to take effect
     localStorage.setItem('token', idToken);
-    window.location.assign('/');
+    this.notifyAuthChange();
   }
 
   logout() {
     // Clear user token and profile data from localStorage
     localStorage.removeItem('token');
-    // this will reload the page and reset the state of the application
-    window.location.reload();
+    this.notifyAuthChange();
   }
 }
 
