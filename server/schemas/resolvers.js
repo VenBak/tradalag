@@ -79,7 +79,7 @@ const resolvers = {
       return entry;
     },
 
-    removeStock: async (_p, context) => {
+    removeStock: async (_p, { stockId }, context) => {
       if (!context.profile) throw new AuthenticationError('Must be logged in');
       await Profile.findByIdAndUpdate(
         context.profile._id,

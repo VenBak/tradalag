@@ -32,7 +32,6 @@ const Header = ({ username }) => {
 
       <nav className="nav">
         <Link to="/portfolio" className="nav-link">Portfolio</Link>
-        <Link to="/">Settings</Link>
         <LoginPopup></LoginPopup>
       </nav>
 
