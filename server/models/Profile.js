@@ -26,6 +26,14 @@ const profileSchema = new Schema({
     shares:   Number,
     valueUSD: Number,
   }],
+  targetSectorPercentages: {
+    type: [Number],
+    default: () => Array(11).fill(0),
+  },
+  targetTotalUSD: {
+    type: Number,
+    default: 0,
+  },
 });
 
 // set up pre-save middleware to create password

@@ -16,6 +16,8 @@ const typeDefs = gql`
     password: String
     apiKey: String
     portfolio: [PortfolioEntry!]!
+    targetSectorPercentages: [Float!]!
+    targetTotalUSD: Float
   }
 
   # Set up an Auth type to handle returning data from a profile creating or user login
@@ -47,6 +49,10 @@ const typeDefs = gql`
     valueUSD: Float!
     ): PortfolioEntry!
     removeStock(stockId: ID!): ID!
+    setTargetSectorPercentages(
+      totalAmountUSD: Float!
+      percentages: [Float!]!
+    ): Profile!
   }
 `;
 

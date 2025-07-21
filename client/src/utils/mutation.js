@@ -55,3 +55,13 @@ export const REMOVE_STOCK = gql`
     removeStock(stockId: $stockId)
   }
 `;
+
+export const SET_TARGETS = gql`
+  mutation SetTargets($total: Float!, $percentages: [Float!]!) {
+    setTargetSectorPercentages(totalAmountUSD: $total, percentages: $percentages) {
+      _id
+      targetSectorPercentages
+      targetTotalUSD
+    }
+  }
+`;

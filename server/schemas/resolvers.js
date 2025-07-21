@@ -87,6 +87,19 @@ const resolvers = {
       );
       return stockId;
     },
+    setTargetSectorPercentages: async (_p, { totalAmountUSD, percentages }, context) => {
+      if (!context.profile) throw new AuthenticationError('Must be logged in');
+      if (percentages.length !== 11)
+        throw new Error('Exactly 11 percentages required');
+      const sum = percentages.reduce((t, n) => t + n, 0);
+      if (Math.abs(sum - 100) > 0.01)
+        throw new Error(`Percentages must add to 100 % (got ${sum})`);
+      return await Profile.findByIdAndUpdate(
+        context.profile._id,
+        { targetSectorPercentages: percentages, targetTotalUSD: totalAmountUSD },
+        { new: true },
+      );
+    },
   }
 };
 

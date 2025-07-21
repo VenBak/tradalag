@@ -5,10 +5,7 @@ import {
 import { GET_ME } from '../utils/queries';
 import useAuth from '../hooks/useAuth';
 
-const sectors = [
-  'Basic Materials','Consumer Discretionary','Consumer Staples','Energy','Financials',
-  'Healthcare','Industrials','Real Estate','Technology','Telecommunications','Utilities',
-];
+import sectors from '../data/sectors'
 
 export default function PortfolioBarChart() {
   const loggedIn          = useAuth();
