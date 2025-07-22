@@ -25,6 +25,10 @@ const profileSchema = new Schema({
     sector:   String,
     shares:   Number,
     valueUSD: Number,
+    recordedAt: {
+      type: Date,
+      default: Date.now,
+    },
   }],
   targetSectorPercentages: {
     type: [Number],

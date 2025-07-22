@@ -8,6 +8,7 @@ const typeDefs = gql`
     sector: String!
     shares: Int!
     valueUSD: Float!
+    recordedAt: String
   }
   type Profile {
     _id: ID
@@ -47,6 +48,7 @@ const typeDefs = gql`
     sector: String!
     shares: Int!
     valueUSD: Float!
+    recordedAt: String
     ): PortfolioEntry!
     removeStock(stockId: ID!): ID!
     setTargetSectorPercentages(

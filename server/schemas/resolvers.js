@@ -66,25 +66,41 @@ const resolvers = {
       );
     },
 
-    addStock: async (_p, args, context) => {
-      if (!context.profile) throw new AuthenticationError('Must be logged in');
-       const entry = { _id: new Types.ObjectId(), ...args };
+    addStock: async (_parent, args, context) => {
+      if (!context.profile) throw new AuthenticationError('Login required');
 
-      // 2 — push *that* entry
-      await Profile.findByIdAndUpdate(
-      context.profile._id,
-        { $push: { portfolio: entry } }
+      // ensure numbers & timestamp
+      const entry = {
+        _id:        new Types.ObjectId(),              // gives client a stable _id
+        ticker:     args.ticker,
+        name:       args.name,
+        sector:     args.sector,
+        shares:     Number(args.shares),
+        valueUSD:   Number(args.valueUSD),
+        recordedAt: args.recordedAt ? new Date(args.recordedAt) : new Date(),
+      };
+
+      // push into embedded array and return the pushed sub-doc
+      const updated = await Profile.findByIdAndUpdate(
+        context.profile._id,
+        { $push: { portfolio: entry } },
+        { new: true, runValidators: true }
       );
-      // 3 — return it
-      return entry;
+
+      return updated.portfolio.id(entry._id); // mongoose sub-doc lookup
     },
 
-    removeStock: async (_p, { stockId }, context) => {
-      if (!context.profile) throw new AuthenticationError('Must be logged in');
-      await Profile.findByIdAndUpdate(
+    /* ───────────────── removeStock ───────────────── */
+    removeStock: async (_parent, { stockId }, context) => {
+      if (!context.profile) throw new AuthenticationError('Login required');
+
+      const updated = await Profile.findByIdAndUpdate(
         context.profile._id,
         { $pull: { portfolio: { _id: stockId } } },
+        { new: true }
       );
+
+      // return the removed id so client can optimistically update if desired
       return stockId;
     },
     setTargetSectorPercentages: async (_p, { totalAmountUSD, percentages }, context) => {

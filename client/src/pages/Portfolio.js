@@ -1,5 +1,5 @@
 import { useQuery, useMutation } from '@apollo/client';
-import { Container, Card, Button, Form, Row, Col } from 'react-bootstrap';
+import { Container, Card, Button, Form, Row, Col, InputGroup } from 'react-bootstrap';
 import { useState, useMemo, useCallback } from 'react';
 
 import { GET_ME } from '../utils/queries';
@@ -69,6 +69,7 @@ export default function Portfolio() {
           sector,
           shares: +d.shares,
           valueUSD: +d.valueUSD,
+          recordedAt: d.recordedAt || new Date().toISOString(),
         },
       });
       setDraft((prev) => ({ ...prev, [sector]: {} }));
@@ -118,27 +119,69 @@ export default function Portfolio() {
                 ))}
 
                 <Form className="mt-3" onSubmit={makeSubmit(sector)}>
-                  {['ticker', 'name', 'shares', 'valueUSD'].map((field) => (
-                    <Form.Control
-                      key={field}
-                      className="mb-2"
-                      size="sm"
-                      type={field === 'shares' || field === 'valueUSD' ? 'number' : 'text'}
-                      step="any"
-                      placeholder={field}
-                      value={draft[sector]?.[field] ?? ''}
-                      onChange={(e) =>
-                        setDraft((p) => ({
-                          ...p,
-                          [sector]: { ...p[sector], [field]: e.target.value },
-                        }))
-                      }
-                    />
-                  ))}
-                  <Button size="sm" variant="primary" type="submit">
-                    ＋ Add
-                  </Button>
-                </Form>
+                {/* ── ticker & name ────────────────────── */}
+                {['ticker', 'name'].map((field) => (
+                  <Form.Control
+                    key={field}
+                    className="mb-2"
+                    size="sm"
+                    placeholder={field}
+                    value={draft[sector]?.[field] ?? ''}
+                    onChange={(e) =>
+                      setDraft((p) => ({
+                        ...p,
+                        [sector]: { ...p[sector], [field]: e.target.value },
+                      }))
+                    }
+                  />
+                ))}
+
+                {/* ── shares & valueUSD (numeric) ──────── */}
+                {['shares', 'valueUSD'].map((field) => (
+                  <Form.Control
+                    key={field}
+                    className="mb-2"
+                    size="sm"
+                    type="number"
+                    step="any"
+                    placeholder={field}
+                    value={draft[sector]?.[field] ?? ''}
+                    onChange={(e) =>
+                      setDraft((p) => ({
+                        ...p,
+                        [sector]: { ...p[sector], [field]: e.target.value },
+                      }))
+                    }
+                  />
+                ))}
+
+                {/* ── recordedAt date-time picker ───────── */}
+                <InputGroup className="mb-2">
+                  <InputGroup.Text>
+                    {/* bootstrap-icons calendar (self-closing) */}
+                    <i className="bi bi-calendar-event" />
+                  </InputGroup.Text>
+                  <Form.Control
+                    type="datetime-local"
+                    size="sm"
+                    value={
+                      draft[sector]?.recordedAt ??
+                      new Date().toISOString().slice(0, 16) // default = now, trimmed to YYYY-MM-DDTHH:mm
+                    }
+                    onChange={(e) =>
+                      setDraft((p) => ({
+                        ...p,
+                        [sector]: { ...p[sector], recordedAt: e.target.value },
+                      }))
+                    }
+                  />
+                </InputGroup>
+
+                <Button size="sm" variant="primary" type="submit">
+                  ＋ Add
+                </Button>
+              </Form>
+              
               </Card.Body>
             </Card>
           </Col>

@@ -39,13 +39,13 @@ export const CLEAR_API_KEY = gql`
 export const ADD_STOCK = gql`
   mutation AddStock(
     $ticker: String!, $name: String!, $sector: String!,
-    $shares: Int!, $valueUSD: Float!
+    $shares: Int!, $valueUSD: Float!, $recordedAt: String
   ) {
     addStock(
       ticker: $ticker, name: $name, sector: $sector,
-      shares: $shares, valueUSD: $valueUSD
+      shares: $shares, valueUSD: $valueUSD, recordedAt: $recordedAt
     ) {
-      _id ticker name sector shares valueUSD
+      _id ticker name sector shares valueUSD recordedAt
     }
   }
 `;
