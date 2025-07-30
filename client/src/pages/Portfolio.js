@@ -10,6 +10,7 @@ import Header from '../components/Header';
 import PortfolioBarChart from '../components/PortfolioBarChart';
 import TargetSectorForm from '../components/TargetSectorForm';
 import TargetSectorBarChart from '../components/TargetSectorBarChart';
+import PortfolioProgress from '../components/PortfolioProgress';
 
 /* ───────────────── constants ───────────────── */
 export const sectors = [
@@ -187,7 +188,7 @@ export default function Portfolio() {
           </Col>
         ))}
       </Row>
-
+      <PortfolioProgress/>
       <PortfolioBarChart className="mt-5" />
 
       <h2 className="mt-5 text-center">Actual vs Target Allocation</h2>

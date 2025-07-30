@@ -19,6 +19,7 @@ const typeDefs = gql`
     portfolio: [PortfolioEntry!]!
     targetSectorPercentages: [Float!]!
     targetTotalUSD: Float
+    portfolioTotal: Float!
   }
 
   # Set up an Auth type to handle returning data from a profile creating or user login
@@ -31,6 +32,7 @@ const typeDefs = gql`
     profiles: [Profile]!
     profile(profileId: ID!): Profile
     me: Profile
+    portfolioTotalValue: Float!
   }
 
   type Mutation {

@@ -18,6 +18,13 @@ const resolvers = {
       // re-query so we always have the latest apiKey, etc.
       return Profile.findById(context.profile._id);
     },
+
+    portfolioTotalValue: async (_parent, { stockId }, context) => {
+      if (!context.profile) throw new AuthenticationError('Must be logged in');
+      const profile = await Profile.findById(context.profile._id).lean();
+      const total = profile.portfolio.reduce((sum, lot) => sum + (lot.valueUSD || 0), 0);
+      return total;
+    }
   },
 
   Mutation: {

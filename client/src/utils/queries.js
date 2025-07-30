@@ -24,3 +24,9 @@ export const GET_ME = gql`
   } targetSectorPercentages
       targetTotalUSD } }
 `;
+
+export const GET_PORTFOLIO_TOTAL = gql`
+  query GetPortfolioTotal {
+    portfolioTotalValue
+  }
+`;
